@@ -1,0 +1,39 @@
+{
+  "menstrual_history": {
+    "last_menstrual_period": {
+      "date": "2024-03-15",
+      "confidence": "high"
+    },
+    "cycle_characteristics": {
+      "average_cycle_length_days": 28,
+      "cycle_regularity": "regular",
+      "menstrual_flow_duration_days": 5,
+      "flow_intensity": "moderate"
+    },
+    "symptoms": {
+      "cramping": {
+        "present": true,
+        "severity": "mild to moderate",
+        "timing": "first two days"
+      },
+      "other_symptoms": []
+    },
+    "menstrual_products": {
+      "used": ["tampons", "pads"]
+    },
+    "contraception": {
+      "hormonal_contraceptives": false,
+      "current_method": "none"
+    },
+    "irregularities": {
+      "irregular_bleeding": false,
+      "missed_periods": false,
+      "pattern_changes": false
+    },
+    "historical_data": {
+      "age_at_menarche": 14,
+      "previous_period_date": "2024-02-17"
+    },
+    "notes": "Regular menstrual cycles with no significant abnormalities reported"
+  }
+}

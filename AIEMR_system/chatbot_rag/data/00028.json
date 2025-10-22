@@ -1,0 +1,234 @@
+{
+  "patient_id": "00028",
+  "General_Information": {
+    "name": "Shah",
+    "title": "Ms."
+  },
+  "Menstrual_History": {
+    "_comment": "Schemas in the Menstrual History table.",
+    "age of menarche": "16",
+    "last menstruation period": "2025-07-21",
+    "regularity": "Irregularly Irregular",
+    "flow": "Moderate",
+    "dys": "Severe",
+    "intermenstrual bleeding": "Present",
+    "consanguinity": "false",
+    "bowel changes": "In the past",
+    "menstruation cycle days": "36",
+    "menstruation length": "7",
+    "amenorrhea": "Present",
+    "amenorrhea type": "Primary",
+    "medicine used": "true",
+    "medicine": [
+      "Bemfola 75",
+      "Gonal - F 300",
+      "Evrol Patches 100 mcg",
+      "Bemfola 300",
+      "Gonal - F 900",
+      "Buscopan 10 mg",
+      "Clexene 40",
+      "Metronidazol 1 gm Pessary"
+    ],
+    "comments": ""
+  },
+  "Medical_History":{
+	"_comment": "Schemas in the Medical History table.",
+	"past disease":{
+
+		"disease_1": {
+			"disease category": "Malignancy", 
+			"disease type": "Liver and intrahepatic bile duct Carcinoma",
+			"disease since when": "2022",
+			"disease on medication": "False",
+			"comments":""
+		}
+	}
+  },
+  "Obstetrics_History": {
+	"_comment": "Schemas in the Obstetrics History table.",
+	"gravida": 7,
+	"gestation weeks": 7,
+	"outcome": "Stillbirth",
+	"sex_assigned_birth": "Female",
+	"delivery_method": "Normal",
+	"type of conceived": "IUI",
+	"complication": "False",
+	"congenial anomalies": "True",
+	"history recurrent abortion": "True",
+	"karyotyping valuation": "True",
+	"indication": "recurrent abortion",
+	"sample type": "Blood",
+	"karyotyping result": "Normal",
+	"comments": ""	
+  },
+  "Past_Medication": {
+	"_comment": "Schemas in the Past Medication table.",
+	"past medication": {
+		"drug_1": {
+			"generic name": "DEXTROSE ANHYDROUS",
+			"brand name": "HETERO",
+			"does": "",
+			"frequency": "",
+			"route": "",
+			"start date": "",
+			"end date": "",
+			"comments":""
+		},
+        "drug_2": {
+          "generic name": "AMINO ACIDS, VITAMINS, MINERALS AND LYCOPENE",
+          "brand name": "NaN",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments":""
+        },
+        "drug_3": {
+          "generic name": "DEXAMETHASONE",
+          "brand name": "GODDRESS",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments":""
+        },
+        "drug_4": {
+          "generic name": "SOYABEAN OIL 200mg+EGG.PHOSPHOLIPIDS 12G",
+          "brand name": "AVETA MEDITECH OPC PVT . LTD.",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments":""
+        },
+        "drug_5": {
+          "generic name": "IBUPROFEN, PARACETAMOL",
+          "brand name": "NaN",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments":""
+        },
+        "drug_6": {
+          "generic name": "DISINFECTANT",
+          "brand name": "NaN",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments":""
+        },
+        "drug_7": {
+          "generic name": "TELMISARTAN",
+          "brand name": "BLUE STAR",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments": ""
+        },
+        "drug_8": {
+          "generic name": "LEVOCARNITINE",
+          "brand name": "NaN",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments": ""
+        }
+	}
+  },
+  "Past_Testing": {
+	"_comment": "Schemas in the Past Testing table.",
+	"past testing": {
+		"past_testing_1": {
+		  "test_name": "Hepatitis B surface antigen (HBsAg)",
+		  "result": "Abnormal",
+		  "date": "2025-08-19",
+		  "remark/indication": "",
+		  "patient_name": "Shah"
+		},
+		"past_testing_2": {
+		  "test_name": "Vitamin D",
+		  "result": "Abnormal",
+		  "date": "2025-08-30",
+		  "remark/indication": "",
+		  "patient_name": "Shah"
+		},
+		"Past_testing_3": {
+		  "test_name": "Free Testosterone",
+		  "result": "Abnormal",
+		  "date": "2025-08-12",
+		  "remark/indication": "",
+		  "patient_name": "Shah"
+		},
+		"past_testing_4": {
+		  "test_name": "Hepatitis C Antibodies",
+		  "result": "Normal",
+		  "date": "2025-07-12",
+		  "remark/indication": "",
+		  "patient_name": "Shah"
+		},
+		"past_testing_5": {
+		  "test_name": "Gonorrhea/Chlamydia (Urine)",
+		  "result": "Abnormal",
+		  "date": "2025-08-26",
+		  "remark/indication": "",
+		  "patient_name": "Shah"
+		},
+		"past_testing_6": {
+		  "test_name": "Protein C",
+		  "result": "Abnormal",
+		  "date": "2025-07-26",
+		  "remark/indication": "",
+		  "patient_name": "Shah"
+		},
+		"past_testing_7": {
+		  "test_name": "Follicle Stimulating Hormone",
+		  "result": "Abnormal",
+		  "date": "2025-07-17",
+		  "remark/indication": "",
+		  "patient_name": "Shah"
+		},
+		"past_testing_8": {
+		  "test_name": "RPR",
+		  "result": "Normal",
+		  "date": "2025-07-11",
+		  "remark/indication": "",
+		  "patient_name": "Shah"
+		}
+	}
+  },
+  "Sexual_History": {
+	"_comment": "Schemas in the Sexual_History",
+	"last sexual relationship duration": "6 months",
+	"last sexual relationship since": "2019",
+	"married": "Other",
+	"contraception": "True",
+	"contraception_method": [
+		"Condoms",
+		"Lubricants"
+	],
+	"female infertility": "False",
+	"intercourse frequency": "Infrequent",
+	"sexual dysfunction": "False",
+	"dyspareunia": "False",
+	"lubricant use": "False",
+	"ovulation kits": "False",
+	"sexually transmitted disease (STD)": [
+		"Syphilis",
+		"Chlamydia",
+		"None"
+	],
+	"sexual transmitted disease since": "2015",
+	"comments": ""
+  }
+}

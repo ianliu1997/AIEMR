@@ -1,0 +1,17 @@
+fastapi==0.115.*
+uvicorn[standard]==0.30.*
+pydantic==2.*
+python-dotenv==1.*
+neo4j==5.*
+apscheduler==3.10.*
+orjson==3.*
+networkx==3.*
+pyvis==0.3.*
+pydantic-settings
+langchain-core==0.3.79
+langchain_community==0.3.31
+langchain_neo4j
+langchain_openai==0.3.35
+tqdm
+qdrant-client
+neo4j-graphrag
