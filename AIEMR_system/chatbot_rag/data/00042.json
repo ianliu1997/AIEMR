@@ -1,0 +1,253 @@
+{
+  "patient_id": "00042",
+  "General_Information": {
+    "name": "Nair",
+    "title": "Mrs."
+  },
+  "Menstrual_History": {
+    "_comment": "Schemas in the Menstrual History table.",
+    "age of menarche": "18",
+    "last menstruation period": "2025-07-22",
+    "regularity": "Irregularly Irregular",
+    "flow": "Moderate",
+    "dys": "Severe",
+    "intermenstrual bleeding": "Absent",
+    "consanguinity": "No",
+    "bowel changes": "In the past",
+    "menstruation cycle days": "24",
+    "menstruation length": "8",
+    "amenorrhea": "Absent",
+    "amenorrhea type": "",
+    "medicine used": "true",
+    "medicine": [
+      "Tab Cabergoline 250 mcg",
+      "Utrogestan. 200 mg  Pessary",
+      "Azethromycine 1g",
+      "Bemfola 150",
+      "Dhea",
+      "ovalep F 450",
+      "Evrol Patches 50 mcg",
+      "ovalep F 1200"
+    ],
+    "comments": ""
+  },
+  "Medical_History":{
+	"_comment": "Schemas in the Medical History table",
+	"past disease":{
+
+		"disease_1": {
+			"disease category": "Infectious Disease", 
+			"disease type": "Tuberculosis",
+			"disease since when": "3 weeks",
+			"disease on medication": "True",
+			"comments":""
+		},
+		"disease_2": {
+			"disease category": "Tuberculosis",
+			"disease type": "Meningeal Tuberculosis",
+			"disease since when": "3 months",
+			"on_medication": "True",
+			"comments": ""
+		},
+		"disease_3": {
+			"disease category": "Pelvic Infection",
+			"disease type": "chlamydia",
+			"disease since when": "6 months",
+			"on_medication": "True",
+			"comments": ""
+		},
+		"disease_4": {
+			"disease category": "Thyroid Disorder",
+			"disease type": "Hypothyroidism",
+			"disease since when":"2019",
+			"on_medicatoin": "False",
+			"comments": ""
+		}
+	}
+  },
+  "Obstetrics_History": {
+	"_comment": "Schemas in the Obstetrics History table.",
+	"gravida": 8,
+	"gestation weeks": 6,
+	"outcome": "Abortion",
+	"sex_assigned_birth": "Female",
+	"delivery_method": "Cesarean Section",
+	"type of conceived": "IVF",
+	"complication": "false",
+	"congenial anomalies": "True",
+	"history recurrent abortion": "True",
+	"karyotyping valuation": "False",
+	"indication": "",
+	"sample type": "",
+	"karyotyping result": "Abnormal",
+	"comments": ""	
+  },
+  "Past_Medication": {
+	"_comment": "Schemas in the Past Medication table.",
+	"past medication": {
+		"drug_1": {
+			"generic name": "CYANOCOBALAMIN,FERROUS FUMARATE,FOLIC ACID",
+			"brand name": "NaN",
+			"does": "",
+			"frequency": "",
+			"route": "",
+			"start date": "",
+			"end date": "",
+			"comments":""
+		},
+        "drug_2": {
+          "generic name": "FOLIC ACID-5MG+DOCOSAHEXAENOIC ACID-300MG+METHYLCO",
+          "brand name": "NaN",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments":""
+        },
+        "drug_3": {
+          "generic name": "ETOFYLLINE AND THEOPHYLLINE",
+          "brand name": "LUPIN",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments":""
+        },
+        "drug_4": {
+          "generic name": "SALMETEROL AND FLUCTICASONE",
+          "brand name": "NaN",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments":""
+        },
+        "drug_5": {
+          "generic name": "TAURINE, ACETYLSTERINE",
+          "brand name": "NaN",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments":""
+        },
+        "drug_6": {
+          "generic name": "RINGER LACTATE",
+          "brand name": "NaN",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments":""
+        },
+        "drug_7": {
+          "generic name": "PHOSPHATE",
+          "brand name": "VITROLIFE",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments": ""
+        },
+        "drug_8": {
+          "generic name": "AMINO ACID, VITAMIN",
+          "brand name": "NaN",
+          "does": "",
+          "frequency": "",
+          "route": "",
+          "start date": "",
+          "end date": "",
+		  "comments": ""
+        }
+	}
+  },
+  "Past_Testing": {
+	"_comment": "Schemas in the Past Testing table.",
+	"past testing": {
+		"past_testing_1": {
+		  "test_name": "Alpha-Thalassemia",
+		  "result": "Abnormal",
+		  "date": "2025-08-21",
+		  "remark/indication": "",
+		  "patient_name": "Nair"
+		},
+		"past_testing_2": {
+		  "test_name": "Total Testosterone",
+		  "result": "Normal",
+		  "date": "2025-07-19",
+		  "remark/indication": "",
+		  "patient_name": "Nair"
+		},
+		"Past_testing_3": {
+		  "test_name": "Cannabinoid",
+		  "result": "Abnormal",
+		  "date": "2025-08-19",
+		  "remark/indication": "",
+		  "patient_name": "Nair"
+		},
+		"past_testing_4": {
+		  "test_name": "Fragile X",
+		  "result": "Abnormal",
+		  "date": "2025-09-02",
+		  "remark/indication": "",
+		  "patient_name": "Nair"
+		},
+		"past_testing_5": {
+		  "test_name": "Hemoglobin Electrophoresis",
+		  "result": "Normal",
+		  "date": "2025-07-31",
+		  "remark/indication": "",
+		  "patient_name": "Nair"
+		},
+		"past_testing_6": {
+		  "test_name": "Gonorrhea/Chlamydia (Urine)",
+		  "result": "Abnormal",
+		  "date": "2025-07-26",
+		  "remark/indication": "",
+		  "patient_name": "Nair"
+		},
+		"past_testing_7": {
+		  "test_name": "HSG",
+		  "result": "Abnormal",
+		  "date": "2025-08-16",
+		  "remark/indication": "",
+		  "patient_name": "Nair"
+		},
+		"past_testing_8": {
+		  "test_name": "Antithrombin III Activity",
+		  "result": "Abnormal",
+		  "date": "2025-07-18",
+		  "remark/indication": "",
+		  "patient_name": "Nair"
+		}
+	}
+  },
+  "Sexual_History": {
+	"_comment": "Schemas in the Sexual_History",
+	"last sexual relationship duration": "3 years",
+	"last sexual relationship since": "2018",
+	"married": "Second marriage",
+	"contraception": "False",
+	"contraception_method": "",
+	"female infertility": "False",
+	"intercourse frequency": "Three times a week",
+	"sexual dysfunction": "True",
+	"dyspareunia": "True",
+	"lubricant use": "False",
+	"ovulation kits": "True",
+	"sexually transmitted disease (STD)": [
+		"HbsAg",
+		"Gonorrhea",
+		"None"
+	],
+	"sexual transmitted disease since": "2 years",
+	"comments": ""
+  }
+  
+}

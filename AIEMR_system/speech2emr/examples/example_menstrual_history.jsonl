@@ -1,0 +1,18 @@
+{
+  "name": "Jane Doe",
+  "title": "Ms.",
+  "age_menarche": 14,
+  "lmp": "2024-03-15",
+  "amenorrhea": false,
+  "amenorrhea_type": null,
+  "medication_used": false,
+  "medicine": null,
+  "cycle_duration": 28,
+  "menstruation_len": 5,
+  "bowel_changes": false,
+  "menstrual_regularity": "regular",
+  "menstruation_flow": "moderate",
+  "dysmennorhea": "mild cramping on first two days",
+  "intermenstrual_bleed": "none",
+  "consanguinity": false
+}
