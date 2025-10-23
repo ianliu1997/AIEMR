@@ -1,0 +1,29 @@
+{
+  "name": "aiemr-demo-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "spec:types": "openapi-typescript ../spec/gateway.yaml --output ./sdk/types.ts",
+    "mocks": "node ./scripts/start-mocks.js"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.45.0",
+    "clsx": "^2.1.0",
+    "msw": "^2.2.14",
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "openapi-typescript": "^6.7.4",
+    "typescript": "^5.4.5"
+  }
+}

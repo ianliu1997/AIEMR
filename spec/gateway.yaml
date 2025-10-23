@@ -1,0 +1,729 @@
+openapi: 3.1.0
+info:
+  title: AIEMR Demo Gateway
+  description: |
+    Backend-for-frontend contract that orchestrates the Speech-to-EMR workflow and the Graph/Hybrid RAG chatbot.
+    Every response propagates an `x-correlation-id` header for observability.
+  version: 0.1.0
+tags:
+  - name: health
+    description: Service readiness endpoints
+  - name: speech
+    description: Speech-to-EMR orchestration
+  - name: rag
+    description: Graph and hybrid RAG flows
+servers:
+  - url: http://localhost:8080
+    description: Local development BFF
+paths:
+  /healthz:
+    get:
+      operationId: getHealthz
+      tags: [health]
+      summary: Liveness probe
+      responses:
+        "200":
+          description: Service is live
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /readyz:
+    get:
+      operationId: getReadyz
+      tags: [health]
+      summary: Readiness probe
+      responses:
+        "200":
+          description: Service is ready to accept traffic
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [ready, degraded]
+                    example: ready
+                  dependencies:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        status:
+                          type: string
+                          enum: [up, down, warning]
+                        details:
+                          type: string
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/speech/adapters:
+    get:
+      operationId: listSpeechAdapters
+      tags: [speech]
+      summary: List available transcription adapters/topics
+      responses:
+        "200":
+          description: Adapter list
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  adapters:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SpeechAdapter"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/speech/jobs:
+    get:
+      operationId: listSpeechJobs
+      tags: [speech]
+      summary: List speech-to-EMR jobs
+      parameters:
+        - in: query
+          name: patientId
+          schema:
+            type: string
+          description: Optional patient filter
+      responses:
+        "200":
+          description: Job collection
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobs:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SpeechJob"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+    post:
+      operationId: createSpeechJob
+      tags: [speech]
+      summary: Upload an audio file and trigger Speech-to-EMR processing
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - patientId
+                - audio
+              properties:
+                patientId:
+                  type: string
+                  description: Patient identifier supplied by the clinician
+                adapterKey:
+                  type: string
+                  nullable: true
+                  description: Optional adapter key to select a specialist transcription model
+                topics:
+                  type: array
+                  items:
+                    type: string
+                  description: Optional topic tags supplied by the UI
+                userLocalDateTime:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Client-local timestamp in ISO 8601
+                userTimezone:
+                  type: string
+                  nullable: true
+                  description: Client timezone in IANA or ±HH:MM form
+                audio:
+                  type: string
+                  format: binary
+                  description: Audio in WAV format
+      responses:
+        "202":
+          description: Job accepted for processing
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+            retry-after:
+              description: Suggested polling interval in seconds
+              schema:
+                type: integer
+                example: 3
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpeechJob"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "415":
+          description: Unsupported media type
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/speech/jobs/{jobId}:
+    get:
+      operationId: getSpeechJob
+      tags: [speech]
+      summary: Inspect a speech-to-EMR job status
+      parameters:
+        - $ref: "#/components/parameters/JobId"
+      responses:
+        "200":
+          description: Job status
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpeechJob"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/speech/jobs/{jobId}/transcript:
+    get:
+      operationId: downloadSpeechTranscript
+      tags: [speech]
+      summary: Download the generated transcript
+      parameters:
+        - $ref: "#/components/parameters/JobId"
+      responses:
+        "200":
+          description: Transcript content
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            text/plain:
+              schema:
+                type: string
+        "202":
+          description: Transcript not ready yet
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: transcribing
+        "404":
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/speech/jobs/{jobId}/emr:
+    get:
+      operationId: downloadSpeechEmr
+      tags: [speech]
+      summary: Download the synthesized EMR JSON
+      parameters:
+        - $ref: "#/components/parameters/JobId"
+      responses:
+        "200":
+          description: EMR JSON file
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                type: object
+        "202":
+          description: EMR not ready yet
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: transcribed
+        "404":
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/speech/patients:
+    get:
+      operationId: listSpeechPatients
+      tags: [speech]
+      summary: List patients with recorded jobs
+      responses:
+        "200":
+          description: Patient summaries
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  patients:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SpeechPatientSummary"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/rag/ingest/sync:
+    post:
+      operationId: triggerRagSync
+      tags: [rag]
+      summary: Trigger a one-off EMR → graph ingest sync
+      responses:
+        "202":
+          description: Sync started
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RagSyncResponse"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/rag/patients:
+    get:
+      operationId: listRagPatients
+      tags: [rag]
+      summary: List patient graph availability
+      responses:
+        "200":
+          description: Patient graph metadata
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  patients:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/GraphPatientSummary"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/rag/patients/{patientId}/graph:
+    get:
+      operationId: getPatientGraph
+      tags: [rag]
+      summary: Retrieve the patient knowledge graph data
+      parameters:
+        - $ref: "#/components/parameters/PatientId"
+      responses:
+        "200":
+          description: Graph nodes and edges
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GraphResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/rag/patients/{patientId}/graph-html:
+    get:
+      operationId: getPatientGraphHtml
+      tags: [rag]
+      summary: Fetch a rendered HTML graph for iframe embedding
+      parameters:
+        - $ref: "#/components/parameters/PatientId"
+      responses:
+        "200":
+          description: HTML graph visualization
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            text/html:
+              schema:
+                type: string
+        "404":
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/rag/query:
+    post:
+      operationId: queryRag
+      tags: [rag]
+      summary: Ask a question using hybrid or graph RAG
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RagQuery"
+      responses:
+        "200":
+          description: RAG answer
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RagAnswer"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /v1/rag/query-with-document:
+    post:
+      operationId: queryRagWithDocument
+      tags: [rag]
+      summary: Ask a question and include an additional reference document
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - question
+                - document
+              properties:
+                question:
+                  type: string
+                mode:
+                  type: string
+                  enum: [hybrid, graph]
+                  default: hybrid
+                patientIds:
+                  type: string
+                  description: Comma separated patient IDs to scope the query
+                document:
+                  type: string
+                  format: binary
+                  description: UTF-8 encoded text document
+      responses:
+        "200":
+          description: RAG answer
+          headers:
+            x-correlation-id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RagAnswer"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+components:
+  parameters:
+    JobId:
+      in: path
+      name: jobId
+      required: true
+      schema:
+        type: string
+      description: Unique job identifier returned during upload
+    PatientId:
+      in: path
+      name: patientId
+      required: true
+      schema:
+        type: string
+  headers:
+    CorrelationId:
+      description: Correlation identifier for distributed tracing
+      schema:
+        type: string
+      required: true
+  responses:
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    BadRequest:
+      description: Validation error
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    NotFound:
+      description: Requested resource was not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+  schemas:
+    Problem:
+      type: object
+      required:
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri
+          nullable: true
+          example: about:blank
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+    SpeechAdapter:
+      type: object
+      required:
+        - key
+        - label
+      properties:
+        key:
+          type: string
+          example: seg_MedicalHistory
+        label:
+          type: string
+          example: Menstrual History (LoRA)
+        description:
+          type: string
+          nullable: true
+        path:
+          type: string
+          nullable: true
+        topics:
+          type: array
+          items:
+            type: string
+    SpeechJob:
+      type: object
+      required:
+        - jobId
+        - patientId
+        - status
+        - submittedAt
+      properties:
+        jobId:
+          type: string
+        patientId:
+          type: string
+        status:
+          type: string
+          enum:
+            - uploaded
+            - transcribed
+            - emr_generated
+            - failed
+        adapterKey:
+          type: string
+          nullable: true
+        topics:
+          type: array
+          nullable: true
+          items:
+            type: string
+        submittedAt:
+          type: string
+          format: date-time
+        transcriptFileId:
+          type: string
+          nullable: true
+        emrFileId:
+          type: string
+          nullable: true
+        transcriptUrl:
+          type: string
+          format: uri
+          nullable: true
+        emrUrl:
+          type: string
+          format: uri
+          nullable: true
+        timeline:
+          $ref: "#/components/schemas/SpeechJobTimeline"
+        errors:
+          type: array
+          items:
+            type: string
+    SpeechJobTimeline:
+      type: object
+      properties:
+        uploadedAt:
+          type: string
+          format: date-time
+          nullable: true
+        transcribedAt:
+          type: string
+          format: date-time
+          nullable: true
+        emrGeneratedAt:
+          type: string
+          format: date-time
+          nullable: true
+    SpeechPatientSummary:
+      type: object
+      required:
+        - patientId
+        - latestStatus
+      properties:
+        patientId:
+          type: string
+        latestStatus:
+          type: string
+          enum:
+            - uploaded
+            - transcribed
+            - emr_generated
+            - failed
+        latestJobId:
+          type: string
+          nullable: true
+        recordCount:
+          type: integer
+          minimum: 0
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          nullable: true
+    RagSyncResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [queued, completed, failed]
+        startedAt:
+          type: string
+          format: date-time
+          nullable: true
+    GraphPatientSummary:
+      type: object
+      required:
+        - patientId
+        - hasGraph
+      properties:
+        patientId:
+          type: string
+        hasGraph:
+          type: boolean
+        graphHtmlUrl:
+          type: string
+          format: uri
+          nullable: true
+        lastIngestedAt:
+          type: string
+          format: date-time
+          nullable: true
+        nodeCount:
+          type: integer
+          nullable: true
+        edgeCount:
+          type: integer
+          nullable: true
+    GraphNode:
+      type: object
+      required:
+        - id
+        - attrs
+      properties:
+        id:
+          type: string
+        attrs:
+          type: object
+    GraphEdge:
+      type: object
+      required:
+        - source
+        - target
+        - attrs
+      properties:
+        source:
+          type: string
+        target:
+          type: string
+        attrs:
+          type: object
+    GraphResponse:
+      type: object
+      required:
+        - patientId
+        - nodes
+        - edges
+      properties:
+        patientId:
+          type: string
+        nodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphNode"
+        edges:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphEdge"
+    RagQuery:
+      type: object
+      required:
+        - question
+      properties:
+        question:
+          type: string
+        mode:
+          type: string
+          enum: [hybrid, graph]
+          default: hybrid
+        patientIds:
+          type: array
+          items:
+            type: string
+          nullable: true
+    RagAnswer:
+      type: object
+      required:
+        - question
+        - mode
+        - answer
+      properties:
+        question:
+          type: string
+        mode:
+          type: string
+          enum: [hybrid, graph]
+        answer:
+          type: string
+        contextJson:
+          type: string
+          nullable: true
+        evidenceNodeIds:
+          type: array
+          items:
+            type: string

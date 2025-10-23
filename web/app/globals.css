@@ -1,0 +1,63 @@
+:root {
+  color-scheme: light;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f4f6fb;
+  color: #1f2933;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.tab-button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tab-button.active {
+  background: #1d4ed8;
+  color: #fff;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.timeline {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.timeline-step {
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: #e0e7ff;
+  color: #1e3a8a;
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+}
+
+.timeline-step.done {
+  background: #bbf7d0;
+  color: #166534;
+}
